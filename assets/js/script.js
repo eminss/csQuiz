@@ -49,7 +49,7 @@ let questions = [
 
 function startGame() {
     startBtn.style.display = 'none';
-    
+
     timeLeft = 90;
 
     // Use the `setInterval()` method to call a function to be executed every 1000 milliseconds
@@ -79,31 +79,36 @@ function startGame() {
         questionUl.appendChild(liEl[i]);
     }
     // click handlers to check if answer is correct or incorrect
+    let index;
     for (let i = 0; i < 4; i++) {
-        liEl[i].addEventListener("click", function() {
-            if(liEl[i].textContent == questions[0].answer) {
+        liEl[i].addEventListener("click", function () {
+            if (liEl[i].textContent == questions[0].answer) {
                 amountCorrect++;
                 console.log(amountCorrect);
                 console.log(questions[i]);
                 // next question
-            } else if(liEl[i].textContent == questions[1].answer){
+            } else if (liEl[i].textContent == questions[1].answer) {
                 amountCorrect++;
                 console.log(amountCorrect);
-            } else if(liEl[i].textContent == questions[2].answer){
+                // nextQuestion();
+            } else if (liEl[i].textContent == questions[2].answer) {
                 amountCorrect++;
                 console.log(amountCorrect);
-            } else if(liEl[i].textContent == questions[3].answer){
+            } else if (liEl[i].textContent == questions[3].answer) {
                 amountCorrect++;
                 console.log(amountCorrect);
             }
             else {
                 timeLeft = timeLeft - 10;
+                // nextQuestion();
             }
             // console.log("clicked option " + i);
             // console.log(questions[0].answer);
             // console.log(liEl[i].textContent);
             // console.log(i);
-            nextQuestion(questions);
+            // nextQuestion(index);
+            nextQuestion();
+            // index += 1;
         })
     }
 }
@@ -153,19 +158,33 @@ function startGame() {
 //         questionEl.textContent = questions[i].question;
 //         liEl[i].textContent = questions[i].options[i];
 //     }
-    // console.log("clicked option");
-    // liEl.addEventListener("click", nextQuestion);
+// console.log("clicked option");
+// liEl.addEventListener("click", nextQuestion);
 // }
 
+// console.log(questions.length);
+// console.log(questions[2].options);
 
-function nextQuestion(questions) {
-    for (let i = 1; i <= questions.length; i++) {
+function nextQuestion() {
+    for (let i = 1; i < 4; i++) {
         for (let j = 0; j < 4; j++) {
-            console.log(questions[i].options[j]);
+            // console.log(questions[i].options[j]);
             liEl[j].textContent = questions[i].options[j];
         }
         questionEl.textContent = questions[i].question;
+        break;
     }
-    questionUl.addEventListener("click", nextQuestion);
+    // liEl.addEventListener("click", nextQuestion());
 }
+startBtn.addEventListener("click", startGame);
+
+// function nextQuestion(index) {
+//     for (let j = 0; j < 4; j++) {
+//         // console.log(questions[i].options[j]);
+//         liEl[j].textContent = questions[index].options[j];
+//     }
+//     questionEl.textContent = questions[index].question;
+
+//     // liEl.addEventListener("click", nextQuestion());
+// }
 startBtn.addEventListener("click", startGame);
