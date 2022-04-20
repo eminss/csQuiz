@@ -8,44 +8,42 @@
 
 var timerText = document.getElementById('countdown');
 var startBtn = document.getElementById('startBtn');
-var questionUl = document.getElementById('optionsList');
 var questionDiv = document.getElementById('questionDiv');
 let questionEl = document.getElementById('currentQuestion');
 var amountCorrect = 0;
-let li1 = document.getElementById('option1');
-let li2 = document.getElementById('option2');
-let li3 = document.getElementById('option3');
-let li4 = document.getElementById('option4');
+let option1 = document.getElementById('option1');
+let option2 = document.getElementById('option2');
+let option3 = document.getElementById('option3');
+let option4 = document.getElementById('option4');
 
-let liEl = [li1, li2, li3, li4];
-var timeLeft = '';
+var currentQuestionIndex = 0;
+let optionsEl = [option1, option2, option3, option4];
+let timeLeft = '';
 
 // declare questions array
 
-let questions = [
+const questions = [
     {
-        question: 'What was the highest concurrent average players in CS:GO in a month?',
+        prompt: 'What was the highest concurrent average players in CS:GO in a month?',
         options: ['99,164 players', '420,690 players', '5 players', '991,640 players'],
         answer: '991,640 players'
     },
     {
-        question: 'What is the most expensive cosmetic item for CS:GO ever sold?',
+        prompt: 'What is the most expensive cosmetic item for CS:GO ever sold?',
         options: ['$13.5k', '$10k', '$1k', '$150k'],
         answer: '$150k'
     },
     {
-        question: 'What was the highest concurrent viewers during a CS:GO tournamet?',
+        prompt: 'What was the highest concurrent viewers during a CS:GO tournamet?',
         options: ['2.1 million viewers', '435k viewers', '1.2 million viewers', '350k viewers'],
         answer: '1.2 million viewers'
     },
     {
-        question: 'What is the most used weapon in CS:GO?',
+        prompt: 'What is the most used weapon in CS:GO?',
         options: ['M4A1-s', 'AK-47', 'Glock-19', 'AWP'],
         answer: 'AK-47'
     }
 ];
-
-// let questionAnswers = [questions[0].options[3], questions[1].options[3], questions[2].options[2], questions[3].options[1]]
 
 function startGame() {
     startBtn.style.display = 'none';
@@ -68,47 +66,39 @@ function startGame() {
     }, 1000);
 
     //populate h3 with first question
-    questionEl.textContent = questions[0].question;
+    questionEl.textContent = questions[0].prompt;
     //append first question to document
     questionDiv.appendChild(questionEl);
 
     // for loop to go through each li element and append it to the document
-    for (let i = 0; i < questions.length; i++) {
+    for (let i = 0; i < optionsEl.length; i++) {
         // liEl[i].textContent = (i + 1) + ". " + questions[0].options[i];
-        liEl[i].textContent = questions[0].options[i];
-        questionUl.appendChild(liEl[i]);
+        optionsEl[i].textContent = questions[0].options[i];
+        questionDiv.appendChild(optionsEl[i]);
     }
     // click handlers to check if answer is correct or incorrect
     let index;
     for (let i = 0; i < 4; i++) {
-        liEl[i].addEventListener("click", function () {
-            if (liEl[i].textContent == questions[0].answer) {
+        optionsEl[i].addEventListener("click", function () {
+            if (optionsEl[i].textContent == questions[0].answer) {
                 amountCorrect++;
                 console.log(amountCorrect);
                 console.log(questions[i]);
                 // next question
-            } else if (liEl[i].textContent == questions[1].answer) {
+            } else if (optionsEl[i].textContent == questions[1].answer) {
                 amountCorrect++;
                 console.log(amountCorrect);
-                // nextQuestion();
-            } else if (liEl[i].textContent == questions[2].answer) {
+            } else if (optionsEl[i].textContent == questions[2].answer) {
                 amountCorrect++;
                 console.log(amountCorrect);
-            } else if (liEl[i].textContent == questions[3].answer) {
+            } else if (optionsEl[i].textContent == questions[3].answer) {
                 amountCorrect++;
                 console.log(amountCorrect);
             }
             else {
                 timeLeft = timeLeft - 10;
-                // nextQuestion();
             }
-            // console.log("clicked option " + i);
-            // console.log(questions[0].answer);
-            // console.log(liEl[i].textContent);
-            // console.log(i);
-            // nextQuestion(index);
             nextQuestion();
-            // index += 1;
         })
     }
 }
@@ -165,26 +155,37 @@ function startGame() {
 // console.log(questions.length);
 // console.log(questions[2].options);
 
-function nextQuestion() {
-    for (let i = 1; i < 4; i++) {
-        for (let j = 0; j < 4; j++) {
-            // console.log(questions[i].options[j]);
-            liEl[j].textContent = questions[i].options[j];
-        }
-        questionEl.textContent = questions[i].question;
-        break;
-    }
-    // liEl.addEventListener("click", nextQuestion());
+function questionClicked() {
+    // if an options button is clicked
+    // then go to the next question
+    // if correct answer is clicked, go to next question, amountCorrect++
+    // if incorrect answer is clicked, subtract 10 seconds from timeLeft
+    console.log("clicked option");
 }
-startBtn.addEventListener("click", startGame);
 
-// function nextQuestion(index) {
-//     for (let j = 0; j < 4; j++) {
-//         // console.log(questions[i].options[j]);
-//         liEl[j].textContent = questions[index].options[j];
-//     }
-//     questionEl.textContent = questions[index].question;
+option1.addEventListener("click", questionClicked);
+option2.addEventListener("click", questionClicked);
+option3.addEventListener("click", questionClicked);
+option4.addEventListener("click", questionClicked);
 
-//     // liEl.addEventListener("click", nextQuestion());
-// }
+
+
+
+
+function nextQuestion() {
+var currentQuestion = questions[currentQuestionIndex]
+questionEl.textContent = questions[currentQuestionIndex + 1].prompt;
+optionsEl[0].textContent = questions[currentQuestionIndex + 1].options[0];
+optionsEl[1].textContent = questions[currentQuestionIndex + 1].options[1];
+optionsEl[2].textContent = questions[currentQuestionIndex + 1].options[2];
+optionsEl[3].textContent = questions[currentQuestionIndex + 1].options[3];
+currentQuestionIndex++;
+console.log(currentQuestionIndex);
+
+
+// currentQuestion.options.forEach(function(optionsEl, currentQuestionIndex){
+//     optionsEl.textContent = 
+// })
+}
+
 startBtn.addEventListener("click", startGame);
